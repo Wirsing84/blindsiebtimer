@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>KSRT - Der Kaffeemaschinen-Siebträger-Reinigungs-Timer</title>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  </head>
+  <body>
+    <h1 class="mdc-typography--headline1">KSRT</h1>
+    <h2 class="mdc-typography--headline2">Der Kaffeemaschinen-Siebträger-Reinigungs-Timer</h2>
+    <div class="mdc-typography--headline3">Zähler: <span id="count">-</span></div>
+    <div class="mdc-typography--headline3">Verstrichene Sekunden: <span id="elapsed">0</span></div>
+    <button class="mdc-button" id="start">Start</button>
+    <button class="mdc-button" id="stop" disabled>Stop</button>
+
+    <script>
+      (function () {
+        let count = 0;
+        let timerId = null;
+        let elapsedId = null;
+        let running = false;
+        let elapsed = 0;
+        let startPhase = true;
+
+        const countEl = document.getElementById("count");
+        const elapsedEl = document.getElementById("elapsed");
+        const startBtn = document.getElementById("start");
+        const stopBtn = document.getElementById("stop");
+
+        function speak(text) {
+          try { speechSynthesis.cancel(); } catch (_) {}
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = "de-DE";
+          // freundlichere Stimme wählen, falls verfügbar
+          const voices = speechSynthesis.getVoices();
+          const friendlyVoice = voices.find(v =>
+            v.lang.startsWith('de') && /Google|Microsoft|Natural|Clara|Hedda|Vicki/i.test(v.name)
+          );
+          if (friendlyVoice) utterance.voice = friendlyVoice;
+          utterance.pitch = 1.2;
+          utterance.rate = 0.95;
+          utterance.volume = 1;
+          speechSynthesis.speak(utterance);
+        }
+
+        function tick() {
+          elapsed = 0;
+          elapsedEl.textContent = elapsed;
+
+          if (startPhase) {
+            count += 1;
+            countEl.textContent = count;
+            speak(`Starte den ${count}. Bezug`);
+          } else {
+            speak("Stoppe den Bezug");
+          }
+
+          startPhase = !startPhase;
+        }
+
+        function updateElapsed() {
+          elapsed += 1;
+          elapsedEl.textContent = elapsed;
+        }
+
+        startBtn.addEventListener("click", () => {
+          if (running) return;
+          running = true;
+          startBtn.disabled = true;
+          stopBtn.disabled = false;
+
+          count = 0;
+          startPhase = true;
+          elapsed = 0;
+          elapsedEl.textContent = 0;
+          countEl.textContent = "-";
+
+          tick();
+          timerId = setInterval(tick, 10_000);
+          elapsedId = setInterval(updateElapsed, 1_000);
+        });
+
+        stopBtn.addEventListener("click", () => {
+          if (!running) return;
+          running = false;
+          startBtn.disabled = false;
+          stopBtn.disabled = true;
+          if (timerId) { clearInterval(timerId); timerId = null; }
+          if (elapsedId) { clearInterval(elapsedId); elapsedId = null; }
+          try { speechSynthesis.cancel(); } catch (_) {}
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+
