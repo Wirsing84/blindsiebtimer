@@ -1,0 +1,31 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto';
+  margin: 0;
+  padding-top: 0px; // Prevent header h1 margin from pushing body down
+}
+
+.mdc-typography--headline1 {
+  line-height: 1em;
+}
+
+.header {
+  text-align: center;
+}
+
+.stats {
+  text-align: center;
+}
+
+.actions {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.hints {
+  padding-top: 0px;
+  text-align: center;
+}

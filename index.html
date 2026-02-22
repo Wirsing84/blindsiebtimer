@@ -2,18 +2,44 @@
 <html lang="de">
   <head>
     <meta charset="utf-8" />
-    <title>KSRT - Der Kaffeemaschinen-Siebträger-Reinigungs-Timer</title>
+    <title>Reinigungs-Timer für Siebträger</title>
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="./assets/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicons/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="./assets/favicons/site.webmanifest">
   </head>
   <body>
-    <h1 class="mdc-typography--headline1">KSRT</h1>
-    <h2 class="mdc-typography--headline2">Der Kaffeemaschinen-Siebträger-Reinigungs-Timer</h2>
-    <div class="mdc-typography--headline3">Zähler: <span id="count">-</span></div>
-    <div class="mdc-typography--headline3">Verstrichene Sekunden: <span id="elapsed">0</span></div>
-    <button class="mdc-button" size="m" color="filled" id="start">Start</button>
-    <button class="mdc-button" size="m" color="elevated" id="stop" disabled>Stop</button>
+    <section class="header">
+      <h1 class="mdc-typography--headline1">Reinigungs-Timer für Siebträger</h1>
+    </section>
+    <section class="stats">
+      <div class="mdc-typography--headline5">Intervall-Nr.:
+        <span id="count">-</span>
+      </div>
+      <div class="mdc-typography--headline5">Verstrichene Sekunden:
+        <span id="elapsed">0</span>
+      </div>
+  </section>
+  <section class="actions">
+    <button class="mdc-button mdc-button--unelevated" id="start">
+      <span class="mdc-button__label">Start</span>
+    </button>
 
+    <button class="mdc-button mdc-button--raised" id="stop" disabled>
+      <span class="mdc-button__label">Stop</span>
+    </button>
+  </section>
+    <section class="actions">
+  </section>
+  <section class="hints">
+    <div class="mdc-typography--caption" id="hint">
+      Anleitung: 3-5 gr Reiniger ins Blindsieb, 10 Reinigungs-Intervalle, Blindsieb ausspülen, 10 Spül-Intervalle.
+    </div>
+  </section>
     <script>
       (function () {
         let count = 0;
